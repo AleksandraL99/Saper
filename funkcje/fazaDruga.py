@@ -4,7 +4,7 @@ from funkcje.gra import *
 
 
 
-def losowanieBomb(bomby,s,w,a,b):
+def losowanieBomb(bomby,s,w,a,b): #funckja losująca bomby
     i = a*s+b
     pola = list(range(0,i))+list(range(i+1,s*w))
     bomb = sample(pola, bomby)
