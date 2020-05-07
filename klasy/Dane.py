@@ -4,11 +4,17 @@ class Dane():
         pass
 
     def setUstawieniaPlanszy(self,x,y):
-        self.spix = x
-        self.spiy = y
+        self.__spix = x
+        self.__spiy = y
     
     def getUstawieniaPlanszy(self):
-        return (self.spix,self.spiy)
+        return (self.__spix,self.__spiy)
+
+    def setBomby(self,bomby):
+        self.__bomby = bomby
+
+    def getBomby(self):
+        return self.__bomby
     
 
 

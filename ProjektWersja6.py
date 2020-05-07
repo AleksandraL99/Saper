@@ -1,12 +1,10 @@
 from funkcje.ladujMenu import *
 
-def start(menustart):
-    menustart.place_forget()
 
 def main():
     window = Tk()    
 
-    ladujMenu(window);
+    ladujMenu(window)
 
     mainloop()
 

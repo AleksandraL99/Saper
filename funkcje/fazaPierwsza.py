@@ -7,6 +7,7 @@ def pierwszyKlik(window,bomby,dane,i,j): #po pierwszym kliknięciu przejdź do f
 
 def fazaPierwsza(window,dane,bomby):
     print(dane)
+
     s,w = dane #szerokość i wysokość wczytywana z planszy
 
     elementy = window.place_slaves()
@@ -35,7 +36,9 @@ def fazaPierwsza(window,dane,bomby):
     board = Frame(frame,bg="#808080",width=szerokosc,heigh=int(wysokosc-50))
     board.place(x=0,y=50)
 
-    
+    #
+   
+
   #  bomb = losowanieBomb(bomby)
   #  tab = konwersjaWymiarow(bomb)
    # print(tab)
@@ -45,5 +48,5 @@ def fazaPierwsza(window,dane,bomby):
    # print(tab2)
     for i in range(w):
         for j in range(s):
-            bt = Button(board,bg="#C0C0C0",text="    ",command=partial(pierwszyKlik,window,bomby,dane,i,j)) #przyciski
+            bt = Button(board,bg="#C0C0C0",text="     ",command=partial(pierwszyKlik,window,bomby,dane,i,j)) #przyciski
             bt.place(x=j*26,y=i*26) #gdy się wciśnie, to przechodzimy do fazy 2, z znanymi współrzędnymi pierwszego strzału

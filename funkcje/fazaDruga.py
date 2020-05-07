@@ -2,8 +2,6 @@ from random import sample
 from klasy.Pole import *
 from funkcje.gra import *
 
-
-
 def losowanieBomb(bomby,s,w,a,b): #funckja losująca bomby, przyjmuje takie argumenty jak ilość bomb, szerokość i wysokość planszy oraz współrzędne pierwszego strzału
     i = a*s+b #ustalenie numeru pola w które strzelił gracz
     pola = list(range(0,i))+list(range(i+1,s*w))
@@ -50,7 +48,7 @@ def fazaDruga(window,bomby,dane,i,j):
    # bomb[i][j].setStan(1)
     odslon=[] #tworzymy pustą tablice odsłonięć
     odsloniecia(bomb,s,w,i,j,odslon)
-    print(odslon) #kontrolne wypisywanie 
+  #  print(odslon) #kontrolne wypisywanie 
     for i in bomb:
         for j in i:
             print(j.getWartosc(),end=" ")
@@ -61,4 +59,4 @@ def fazaDruga(window,bomby,dane,i,j):
             print(j.getStan(),end="")
         print()
 
-    generujPola(window,bomb,s,w) #przechodzimy do gry właściwej
+    generujPola(window,bomb,s,w,bomby) #przechodzimy do gry właściwej

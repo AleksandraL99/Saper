@@ -2,6 +2,9 @@ from tkinter import *
 from funkcje.fazaPierwsza import *
 from klasy.Dane import *
 
+def test():
+    return "alo alo"
+
 def zmiana_pol_poziom(self,dane,b): #ustawiamy rozmiar planszy zgodnie z tym co zostało wybrane w menu
     spix,spiy = dane.getUstawieniaPlanszy() #spix to szerokosc
     spix = int(self.get())
