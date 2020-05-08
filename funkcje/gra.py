@@ -4,6 +4,13 @@ from tkinter import *
 from functools import partial
 from funkcje.fazaTrzecia import *
 from time import sleep
+import funkcje.ladujMenu as test
+
+def reset(window):
+    elementy = window.place_slaves()
+    for l in elementy:
+        l.destroy()
+    test.ladujMenu(window)
 
 def odsloniecia(tab,s,w,a,b,odslon): #funkcja odsłaniajaca po kliknięciu
     print(tab[a][b].getWartosc(),tab[a][b].getStan()) #wyświetlanie w konsoli tablic zapisanych liczb i stanów
@@ -59,11 +66,10 @@ def leweKlikniecie(window,tab,s,w,i,j,btTablica,self): #obsługa kliknięcia lew
         odsloniecia(tab,s,w,i,j,odslon)
         for i,j in odslon:
             liczba,kolor = kololowanko(tab[i][j].getWartosc())       
-            lb = Label(btTablica[i][j].master, bg="#C0C0C0",text=" {}  ".format(liczba), fg = '{}'.format(kolor))
+            lb = Label(btTablica[i][j].master, bg="#808080",text="  {}  ".format(liczba),font = ("Calibri",10), fg = '{}'.format(kolor))
             lb.place(x=j*26,y=i*26)
             btTablica[i][j].destroy()
         warunkiZakonczenia(window, s,w,tab)
-        #TODO sprawdzanie wygrania
     else:
         print("tu jest flaga/znak zapytania, nie da się strzelić")
 
@@ -72,7 +78,7 @@ def zmianaPrzyciskow(tab,i,j,bt): #TODO to w sumie chyba do usunięcia, obrazki 
     bomba = PhotoImage(file = r"img\bomba.png")
     pytajnik = PhotoImage(file = r"img\pytajnik.png")
 
-def praweKlikniecie(tab,i,j,bt,wyswietl,bomby,self): #obsługa prawego kliknięcia
+def praweKlikniecie(window,s,w,tab,i,j,bt,wyswietl,bomby,self): #obsługa prawego kliknięcia
     flaga = PhotoImage(file = r"img\flaga.png") #w tej części możemy użyć flagi i pytajnika
     pytajnik = PhotoImage(file = r"img\pytajnik.png") #TODO warunki zakończenia
 
@@ -91,7 +97,7 @@ def praweKlikniecie(tab,i,j,bt,wyswietl,bomby,self): #obsługa prawego kliknięc
     elif tab[i][j].getStan() == 3: #jeśli stanem było 3 (pytajnik)
         tab[i][j].setStan(0) #wróć do stanu 0
         bt.config(image = "") #przycisk bez obrazka
-    
+    warunkiZakonczenia(window, s,w,tab)
     wyswietl['text'] = "Pozostałe bomby do oznaczenia: {}".format(bomby.getBomby())
 
 def warunkiZakonczenia(window, s,w,tab): #TODO dodać warunek, że wszystkie oprócz bomb są odkryte
@@ -152,20 +158,20 @@ def generujPola(window,tab,s,w,bomby): #generowanie planszy TODO żeby za każdy
 
     szerokosc = 26*s - 4 #ustalamy szerokość i wysokość każdego pola jako 26 pixeli
     wysokosc = 26*w + 50 #dodatkowe 50 pixeli na menu górne
-    frame = Frame(window,bg="#ff0000",width=szerokosc,heigh=wysokosc) 
+    frame = Frame(window,bg="#808080",width=szerokosc,heigh=wysokosc) 
     frame.pack_propagate(0)
     frame.place(x=0,y=0)
 
     wyswietl = Label(frame,text="Pozostałe bomby do oznaczenia: {}".format(bomby),bg = "#C0C0C0",width = 28,height = 2)
-    wyswietl.place(x=40,y=8) #ramka z liczbą bomb do oznaczenia TODO do zmiany, żeby to jakos wyglądało
+    wyswietl.place(x=40,y=8) 
 
     photo = PhotoImage(file = r"img\retry.png") 
     flaga = PhotoImage(file = r"img\flaga.png") 
     bomba = PhotoImage(file = r"img\bomba.png")
     pytajnik = PhotoImage(file = r"img\pytajnik.png")
 
-    reset = Button(frame,bg="#C0C0C0",width=30,heigh=31,image = photo, compound=LEFT) #przycisk do resetowania gry
-    reset.place(x=3,y=8)
+    reset = Button(frame,bg="#C0C0C0",width=30,heigh=31,image = photo, compound=LEFT, command = lambda:  reset(window)) #przycisk do resetowania gry
+    reset.place(x=3,y=8) #TODO naprawić
 
     board = Frame(frame,bg="#808080",width=szerokosc,heigh=int(wysokosc-50))
     board.place(x=0,y=50)
@@ -178,12 +184,12 @@ def generujPola(window,tab,s,w,bomby): #generowanie planszy TODO żeby za każdy
         for j in range(s):
             if  tab[i][j].getStan()==1: #jeśli jest stan równy 1 ustawiony, to wyświetlaj liczby
                 liczba,kolor = kololowanko(tab[i][j].getWartosc())                
-                bt = Label(board,bg="#C0C0C0",text="{}  ".format(liczba), fg = '{}'.format(kolor)) #TODO zmienic font
+                bt = Label(board,bg="#808080",text="  {}  ".format(liczba),font = ("Calibri",10), fg = '{}'.format(kolor)) #TODO zmienic font
 
             else:
                 bt = Button(board,bg="#C0C0C0",text="     ") #tworzymy pusty przycisk
                 bt.bind("<Button-1>", partial(leweKlikniecie,window, tab, s, w, i, j, btTablica)) #obsługa lewego kliknięcia
-                bt.bind("<Button-3>", partial(praweKlikniecie,tab,i, j, bt, wyswietl,liczbaBomb)) #obsługa prawego kliknięcia
+                bt.bind("<Button-3>", partial(praweKlikniecie,window,s,w,tab,i, j, bt, wyswietl,liczbaBomb)) #obsługa prawego kliknięcia
             
             bt.place(x=j*26,y=i*26)
             temp.append(bt)

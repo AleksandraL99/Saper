@@ -18,7 +18,7 @@ def fazaPierwsza(window,dane,bomby):
     wysokosc = 26*w + 50 #dodatkowe 50 pixeli na menu górne
     window.geometry("{}x{}".format(szerokosc,wysokosc))
          
-    frame = Frame(window,bg="#ff0000",width=szerokosc,heigh=wysokosc)
+    frame = Frame(window,bg="#808080",width=szerokosc,heigh=wysokosc)
     frame.pack_propagate(0)
     frame.place(x=0,y=0)
 
