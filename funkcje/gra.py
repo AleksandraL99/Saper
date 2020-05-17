@@ -6,14 +6,14 @@ from funkcje.fazaTrzecia import *
 from time import sleep
 import funkcje.ladujMenu as test
 
-def reset(window):
+def zresetuj(window):
     elementy = window.place_slaves()
     for l in elementy:
         l.destroy()
     test.ladujMenu(window)
 
 def odsloniecia(tab,s,w,a,b,odslon): #funkcja odsłaniajaca po kliknięciu
-    print(tab[a][b].getWartosc(),tab[a][b].getStan()) #wyświetlanie w konsoli tablic zapisanych liczb i stanów
+    #print(tab[a][b].getWartosc(),tab[a][b].getStan()) #wyświetlanie w konsoli tablic zapisanych liczb i stanów
     if tab[a][b].getWartosc() == 0 and tab[a][b].getStan() == 0: #jeśli trafi się w pole z wartością 0 i nieodsłoniętą, to idź rekurencyjnie
         tab[a][b].setStan(1) #ustaw stan na odsłonięcie
         odslon.append((a,b)) #odsłoń
@@ -61,7 +61,6 @@ def leweKlikniecie(window,tab,s,w,i,j,btTablica,self): #obsługa kliknięcia lew
             przegrana(window,tab,btTablica,s,w)
             print("end")
             return
-        print(i,j) #na razie tylko wyświetla, TODO odsłania na planszy
         odslon = []
         odsloniecia(tab,s,w,i,j,odslon)
         for i,j in odslon:
@@ -119,6 +118,7 @@ def warunkiZakonczenia(window, s,w,tab): #TODO dodać warunek, że wszystkie opr
     if i == j == k or m+i == n: #jeśli warunki spełnione to przejdź do okna zamknięcia
         fazaTrzecia(window, s, w, 1)
 
+
 def kololowanko(wartosc):
     liczba = "  "
     kolor="#C0C0C0"
@@ -170,8 +170,11 @@ def generujPola(window,tab,s,w,bomby): #generowanie planszy TODO żeby za każdy
     bomba = PhotoImage(file = r"img\bomba.png")
     pytajnik = PhotoImage(file = r"img\pytajnik.png")
 
-    reset = Button(frame,bg="#C0C0C0",width=30,heigh=31,image = photo, compound=LEFT, command = lambda:  reset(window)) #przycisk do resetowania gry
+    reset = Button(frame,bg="#C0C0C0",width=30,heigh=31,image = photo, compound=LEFT, command = lambda: zresetuj(window)) #przycisk do resetowania gry
     reset.place(x=3,y=8) #TODO naprawić
+    logo = photo.subsample(4, 4)
+    reset.config(image = logo) #stwórz przycisk z obrazkiem plagi
+    reset.image = logo
 
     board = Frame(frame,bg="#808080",width=szerokosc,heigh=int(wysokosc-50))
     board.place(x=0,y=50)

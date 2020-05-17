@@ -15,8 +15,3 @@ class Pole():
         
     def getWartosc(self):
         return self.wartosc
-
-    
-
-
-
