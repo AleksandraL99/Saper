@@ -1,10 +1,10 @@
-from funkcje.ladujMenu import *
+from funkcje.laduj_menu import *
 
 
 def main():
-    window = Tk()    
+    window = Tk()
 
-    ladujMenu(window)
+    laduj_menu(window)
 
     mainloop()
 

@@ -4,14 +4,14 @@ class Pole():
         self.stan = 0
         self.wartosc = 0
 
-    def setStan(self,x):
+    def set_stan(self, x):
         self.stan = x
 
-    def getStan(self):
+    def get_stan(self):
         return self.stan
 
-    def setWartosc(self,x):
+    def set_wartosc(self, x):
         self.wartosc = x
-        
-    def getWartosc(self):
+
+    def get_wartosc(self):
         return self.wartosc
