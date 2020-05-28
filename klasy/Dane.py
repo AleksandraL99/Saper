@@ -1,7 +1,7 @@
 class Dane():
 
     def __init__(self):
-        pass
+        ustawienia_planszy = 10,10
 
     def set_ustawienia_planszy(self, x, y):
         self.__spix = x
