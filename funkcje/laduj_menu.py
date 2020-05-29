@@ -1,8 +1,8 @@
 import tkinter
 
-import funkcje.faza_pierwsza
-import funkcje.stale
-import klasy.Dane
+from funkcje import faza_pierwsza
+from funkcje import stale
+from klasy import Dane
 
 OD = 10
 DO = 25
@@ -26,7 +26,7 @@ def zmiana_pol_pion(self, dane, bomby):
 
 
 def laduj_menu(window):
-    dane = klasy.Dane.Dane()  # startowa szerokość planszy
+    dane = Dane.Dane()  # startowa szerokość planszy
     dane.set_ustawienia_planszy(10, 10)  # metoda z klasy Dane
 
     window.geometry("{}x{}".format(250, 300))  # tworzymy okno z startowym menu
@@ -34,12 +34,12 @@ def laduj_menu(window):
     height = window.winfo_screenheight()
     width = window.winfo_screenwidth()
 
-    menu = tkinter.Frame(window, bg=funkcje.stale.SZARY_CIEMNY, width=width, heigh=height)
+    menu = tkinter.Frame(window, bg=stale.SZARY_CIEMNY, width=width, heigh=height)
     menu.pack_propagate(0)
     menu.place(x=0, y=0)
 
     label = tkinter.Label(menu, text="Wybierz wielkość pola",
-                          bg=funkcje.stale.SZARY_CIEMNY, width=SZEROKOŚĆ, height=WYSOKOŚĆ)
+                          bg=stale.SZARY_CIEMNY, width=SZEROKOŚĆ, height=WYSOKOŚĆ)
     label.place(x=10, y=20)
 
     # pole wyboru wysokości
@@ -53,15 +53,15 @@ def laduj_menu(window):
     wybor_szerokosci.place(x=50, y=80)
 
     label = tkinter.Label(menu, text="Wybierz ilość bomb",
-                          bg=funkcje.stale.SZARY_CIEMNY, width=SZEROKOŚĆ, height=WYSOKOŚĆ)
+                          bg=stale.SZARY_CIEMNY, width=SZEROKOŚĆ, height=WYSOKOŚĆ)
     label.place(x=10, y=120)
 
     # pole wyboru ilości bomb
     wybor_ilosci_bomb = tkinter.Spinbox(menu, from_=20, to=70, state="readonly")
     wybor_ilosci_bomb.place(x=50, y=150)
 
-    przycisk_dalej = tkinter.Button(menu, bg=funkcje.stale.SZARY_JASNY, width=10, heigh=WYSOKOŚĆ,
-                                    command=lambda: funkcje.faza_pierwsza.faza_pierwsza
+    przycisk_dalej = tkinter.Button(menu, bg=stale.SZARY_JASNY, width=10, heigh=WYSOKOŚĆ,
+                                    command=lambda: faza_pierwsza.faza_pierwsza
                                     (window, dane.get_ustawienia_planszy(),
                                      int(wybor_ilosci_bomb.get())), text="Zatwierdź")
     przycisk_dalej.place(x=75, y=190)  # przycisk do przejścia dalej

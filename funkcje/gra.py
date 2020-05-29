@@ -1,10 +1,10 @@
 import tkinter
 from functools import partial
 
-import funkcje.faza_trzecia
-import funkcje.laduj_menu
-import funkcje.stale
-import klasy.Dane
+from funkcje import faza_trzecia
+from funkcje import laduj_menu
+from funkcje import stale
+from klasy import Dane
 
 ODSLONIETY = 1
 NIEODSLONIETY = 0
@@ -19,7 +19,7 @@ def zresetuj(window):
     elementy = window.place_slaves()
     for l in elementy:
         l.destroy()
-    funkcje.laduj_menu.laduj_menu(window)
+    laduj_menu.laduj_menu(window)
 
 
 # funkcja odsłaniajaca po kliknięciu
@@ -44,19 +44,24 @@ def odsloniecia(tab, szerokosc, wysokosc, wsp_1, wsp_2, odslon):
         tab[wsp_1][wsp_2].set_stan(ODSLONIETY)  # zmień stan na odsłonięty
         odslon.append((wsp_1, wsp_2))  # odsłoń ją
         # lewy górny róg
-        if wsp_1 != 0 and wsp_2 != szerokosc-1 and tab[wsp_1][wsp_2+1].wartosc == PUSTY and tab[wsp_1-1][wsp_2].wartosc != PUSTY and tab[wsp_1][wsp_2+1].stan == ODSLONIETY:
+        if (wsp_1 != 0 and wsp_2 != szerokosc-1 and tab[wsp_1][wsp_2+1].wartosc == PUSTY and
+                tab[wsp_1-1][wsp_2].wartosc != PUSTY and tab[wsp_1][wsp_2+1].stan == ODSLONIETY):
             tab[wsp_1-1][wsp_2].set_stan(1)  # ustaw stan 1
             odslon.append((wsp_1-1, wsp_2))
         # prawy dolny róg
-        if wsp_1 != wysokosc-1 and wsp_2 != 0 and tab[wsp_1][wsp_2-1].wartosc == PUSTY and tab[wsp_1+1][wsp_2].wartosc != PUSTY and tab[wsp_1][wsp_2-1].stan == ODSLONIETY:
+        if (wsp_1 != wysokosc-1 and wsp_2 != 0 and tab[wsp_1][wsp_2-1].wartosc == PUSTY and
+                tab[wsp_1+1][wsp_2].wartosc != PUSTY and tab[wsp_1][wsp_2-1].stan == ODSLONIETY):
             tab[wsp_1+1][wsp_2].set_stan(ODSLONIETY)
             odslon.append((wsp_1+1, wsp_2))
         # lewy dolny róg
-        if wsp_1 != wysokosc-1 and wsp_2 != szerokosc-1 and tab[wsp_1][wsp_2+1].wartosc == PUSTY and tab[wsp_1+1][wsp_2].wartosc != PUSTY and tab[wsp_1][wsp_2+1].stan == ODSLONIETY:
+        if (wsp_1 != wysokosc-1 and wsp_2 != szerokosc-1 and
+                tab[wsp_1][wsp_2+1].wartosc == PUSTY and
+                tab[wsp_1+1][wsp_2].wartosc != PUSTY and tab[wsp_1][wsp_2+1].stan == ODSLONIETY):
             tab[wsp_1+1][wsp_2].set_stan(ODSLONIETY)
             odslon.append((wsp_1+1, wsp_2))
         # prawy górny róg
-        if wsp_1 != 0 and wsp_2 != 0 and tab[wsp_1][wsp_2-1].wartosc == PUSTY and tab[wsp_1-1][wsp_2].wartosc != PUSTY and tab[wsp_1][wsp_2-1].stan == ODSLONIETY:
+        if (wsp_1 != 0 and wsp_2 != 0 and tab[wsp_1][wsp_2-1].wartosc == PUSTY and
+                tab[wsp_1-1][wsp_2].wartosc != PUSTY and tab[wsp_1][wsp_2-1].stan == ODSLONIETY):
             tab[wsp_1-1][wsp_2].set_stan(ODSLONIETY)
             odslon.append((wsp_1-1, wsp_2))
 
@@ -65,16 +70,16 @@ def odsloniecia(tab, szerokosc, wysokosc, wsp_1, wsp_2, odslon):
 def lewe_klikniecie(window, tab, szerokosc, wysokosc, wsp_1, wsp_2, btTablica, self):
     if tab[wsp_1][wsp_2].stan == NIEODSLONIETY:  # jeśli nieodkryty
         if tab[wsp_1][wsp_2].wartosc == 9:
-            funkcje.faza_trzecia.faza_trzecia(window, szerokosc, wysokosc, 0)
+            faza_trzecia.faza_trzecia(window, szerokosc, wysokosc, 0)
             print("end")
             return
         odslon = []
         odsloniecia(tab, szerokosc, wysokosc, wsp_1, wsp_2, odslon)
         for i, j in odslon:
             liczba, kolor = kololowanko(tab[i][j].wartosc)
-            lb = tkinter.Label(btTablica[i][j].master, bg=funkcje.stale.SZARY_CIEMNY,
-                       text="  {}  ".format(liczba),
-                       font=("Calibri", 10), fg='{}'.format(kolor))
+            lb = tkinter.Label(btTablica[i][j].master, bg=stale.SZARY_CIEMNY,
+                               text="  {}  ".format(liczba),
+                               font=("Calibri", 10), fg='{}'.format(kolor))
             lb.place(x=j*26, y=i*26)
             btTablica[i][j].destroy()
         warunki_zakonczenia(window, szerokosc, wysokosc, tab)
@@ -130,17 +135,17 @@ def warunki_zakonczenia(window, szerokosc, wysokosc, tab):
                 odsloniete += 1
     # jeśli warunki spełnione to przejdź do okna zamknięcia
     if ilosc_bomb == oznaczone_bomby == oznaczone or odsloniete+ilosc_bomb == wszystkie:
-        funkcje.faza_trzecia.faza_trzecia(window, szerokosc, wysokosc, 1)
+        faza_trzecia.faza_trzecia(window, szerokosc, wysokosc, 1)
 
 
 def kololowanko(wartosc):
     KOLORY = ["blue", "green", "red", "navy", "#8B0000", "#FFFF00", "#DC143C", "black"]
     liczba = "  "
-    kolor = funkcje.stale.SZARY_JASNY
+    kolor = stale.SZARY_JASNY
     if 1 <= wartosc <= 8:
         return f"{wartosc}", KOLORY[wartosc - 1]
     else:
-        return "  ", funkcje.stale.SZARY_JASNY
+        return "  ", stale.SZARY_JASNY
 
 
 def generuj_pola(window, tab, szerokosc, wysokosc, bomby):  # generowanie planszy
@@ -151,44 +156,42 @@ def generuj_pola(window, tab, szerokosc, wysokosc, bomby):  # generowanie plansz
     # ustalamy szerokość i wysokość każdego pola jako 26 pixeli
     szerokosc_okna = WYMIAR_OKIENKA*szerokosc - 4
     wysokosc_okna = WYMIAR_OKIENKA*wysokosc + 50  # dodatkowe 50 pixeli na menu górne
-    frame = tkinter.Frame(window, bg=funkcje.stale.SZARY_CIEMNY,
+    frame = tkinter.Frame(window, bg=stale.SZARY_CIEMNY,
                           width=szerokosc_okna, heigh=wysokosc_okna)
     frame.pack_propagate(0)
     frame.place(x=0, y=0)
 
     wyswietl = tkinter.Label(frame, text="Pozostałe bomby do oznaczenia: {}".format(bomby),
-                    bg=funkcje.stale.SZARY_JASNY, width=28, height=2)
+                             bg=stale.SZARY_JASNY, width=28, height=2)
     wyswietl.place(x=40, y=8)
 
     photo = tkinter.PhotoImage(file='img/retry.png')
 
     # przycisk do resetowania gry
-    reset = tkinter.Button(frame, bg=funkcje.stale.SZARY_JASNY, width=30, heigh=31,
-                   image=photo, command=lambda: zresetuj(window))
+    reset = tkinter.Button(frame, bg=stale.SZARY_JASNY, width=30, heigh=31,
+                           image=photo, command=lambda: zresetuj(window))
     reset.place(x=3, y=8)
     logo = photo.subsample(4, 4)
     reset.config(image=logo)
     reset.image = logo
 
-    board = tkinter.Frame(frame, bg=funkcje.stale.SZARY_CIEMNY, width=szerokosc_okna,
-                  heigh=int(wysokosc_okna-50))
+    board = tkinter.Frame(frame, bg=stale.SZARY_CIEMNY, width=szerokosc_okna,
+                          heigh=int(wysokosc_okna-50))
     board.place(x=0, y=50)
 
     btTablica = []
-    liczba_bomb = klasy.Dane.Dane()
+    liczba_bomb = Dane.Dane()
     liczba_bomb.set_bomby(bomby)
     for i in range(wysokosc):
         temp = []
         for j in range(szerokosc):
             if tab[i][j].stan == 1:  # jeśli jest stan równy 1 ustawiony, to wyświetlaj liczby
                 liczba, kolor = kololowanko(tab[i][j].wartosc)
-                przycisk = tkinter.Label(board, bg=funkcje.stale.SZARY_CIEMNY,
-                                         text="  {}  ".format(liczba),
+                przycisk = tkinter.Label(board, bg=stale.SZARY_CIEMNY, text="  {}  ".format(liczba),
                                          font=("Calibri", 10), fg='{}'.format(kolor))
-
             else:
                 # tworzymy pusty przycisk
-                przycisk = tkinter.Button(board, bg=funkcje.stale.SZARY_JASNY, text="     ")
+                przycisk = tkinter.Button(board, bg=stale.SZARY_JASNY, text="     ")
                 # obsługa lewego kliknięcia
                 przycisk.bind("<Button-1>", partial(lewe_klikniecie, window, tab,
                                                     szerokosc, wysokosc, i, j, btTablica))

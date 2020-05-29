@@ -1,4 +1,4 @@
-import pygame
+import tkinter
 
 
 class Assets:
@@ -7,7 +7,7 @@ class Assets:
     @staticmethod
     def load():
         """Wczytuje zasoby z dysku."""
-        Assets.FLAGA_OBRAZ = pygame.image.load('img/flaga.png')
-        Assets.PYTAJNIK_OBRAZ = pygame.image.load('img/pytajnik.png')
-        Assets.RESET_OBRAZ = pygame.image.load('img/retry.png')
+        Assets.FLAGA_OBRAZ = tkinter.PhotoImage(file='img/flaga.png')
+        Assets.PYTAJNIK_OBRAZ = tkinter.PhotoImage('img/pytajnik.png')
+        Assets.RESET_OBRAZ = tkinter.PhotoImage('img/retry.png')
 
