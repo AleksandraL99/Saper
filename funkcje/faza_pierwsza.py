@@ -2,6 +2,7 @@ from functools import partial
 import tkinter
 
 from funkcje import faza_druga
+from funkcje import obrazy
 from funkcje import stale
 
 WYMIAR_OKIENKA = 26
@@ -36,12 +37,16 @@ def faza_pierwsza(window, dane, bomby):
                              bg=stale.SZARY_JASNY, width=28, height=2)
     wyswietl.place(x=40, y=8)  # ramka z iloscią bomb do oznaczenia
 
-    photo = tkinter.PhotoImage(file='img/retry.png')
+    photo = obrazy.Assets.RESET_OBRAZ
 
     # przycisk resetu
     reset = tkinter.Button(frame, bg=stale.SZARY_JASNY,
                            width=WYMIAR_RESET, heigh=WYMIAR_RESET, image=photo)
+
     reset.place(x=3, y=8)
+    logo = photo.subsample(4, 4)
+    reset.config(image=logo)
+    reset.image = logo
 
     board = tkinter.Frame(frame, bg=stale.SZARY_CIEMNY,
                           width=szerokosc_okna, heigh=int(wysokosc_okna-50))

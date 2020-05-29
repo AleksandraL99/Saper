@@ -3,6 +3,7 @@ from functools import partial
 
 from funkcje import faza_trzecia
 from funkcje import laduj_menu
+from funkcje import obrazy
 from funkcje import stale
 from klasy import Dane
 
@@ -91,18 +92,16 @@ def lewe_klikniecie(window, tab, szerokosc, wysokosc, wsp_1, wsp_2, btTablica, s
 def prawe_klikniecie(window, szerokosc, wysokosc,
                      tab, wsp_1, wsp_2, przycisk, wyswietl, bomby, self):
     # w tej części możemy użyć flagi i pytajnika
-    flaga = tkinter.PhotoImage(file='img/flaga.png')
-    pytajnik = tkinter.PhotoImage(file='img/pytajnik.png')
 
     if tab[wsp_1][wsp_2].stan == 0:  # jeśli jeszcze nie był klikany
         tab[wsp_1][wsp_2].set_stan(2)  # ustaw stan 2, odpowiedzialny za flagę)
-        logo = flaga.subsample(2, 2)
+        logo = obrazy.Assets.FLAGA_OBRAZ.subsample(2, 2)
         przycisk.config(image=logo)  # stwórz przycisk z obrazkiem plagi
         przycisk.image = logo
         bomby.set_bomby(bomby.get_bomby()-1)
     elif tab[wsp_1][wsp_2].stan == 2:  # jeśli stanem było 2 (flaga)
         tab[wsp_1][wsp_2].set_stan(3)  # ustaw stan 3, czyli pytajnik
-        logo = pytajnik.subsample(2, 2)
+        logo = obrazy.Assets.PYTAJNIK_OBRAZ.subsample(2, 2)
         przycisk.config(image=logo)  # stwórz przycisk z pytajnikiem
         przycisk.image = logo
         bomby.set_bomby(bomby.get_bomby()+1)
@@ -165,7 +164,7 @@ def generuj_pola(window, tab, szerokosc, wysokosc, bomby):  # generowanie plansz
                              bg=stale.SZARY_JASNY, width=28, height=2)
     wyswietl.place(x=40, y=8)
 
-    photo = tkinter.PhotoImage(file='img/retry.png')
+    photo = obrazy.Assets.RESET_OBRAZ
 
     # przycisk do resetowania gry
     reset = tkinter.Button(frame, bg=stale.SZARY_JASNY, width=30, heigh=31,
