@@ -1,4 +1,4 @@
-from random import sample
+import random
 
 from klasy import Pole
 from funkcje import gra
@@ -13,7 +13,7 @@ def losowanie_bomb(bomby, szerokosc, wysokosc, wspolrzedna_1, wspolrzedna_2):
     # ustalenie numeru pola w które strzelił gracz
     strzelone = wspolrzedna_1*szerokosc+wspolrzedna_2
     pola = list(range(0, strzelone))+list(range(strzelone+1, szerokosc*wysokosc))
-    bomb = sample(pola, bomby)  # losowanie bomb wśród pozostałych pól
+    bomb = random.sample(pola, bomby)  # losowanie bomb wśród pozostałych pól
 
     tab = [[Pole.Pole() for col in range(szerokosc)] for row in range(wysokosc)]
     for i in bomb:  # przełożenie z numeru pól nas tablice dwuwymiarową
@@ -36,36 +36,36 @@ def przelicz(tab, szerokosc, wysokosc):
                 # na prawo
                 if (w_szerokosci != szerokosc-1 and
                         tab[w_wysokosci][w_szerokosci+1].wartosc == BOMBA):
-                    i = i+1
+                    i += 1
                 # na lewo
                 if (w_szerokosci != PIERWSZY_WIERSZ_LUB_KOLUMNA and
                         tab[w_wysokosci][w_szerokosci-1].wartosc == BOMBA):
-                    i = i+1
+                    i += 1
                 # dół
                 if (w_wysokosci != wysokosc-1 and
                         tab[w_wysokosci+1][w_szerokosci].wartosc == BOMBA):
-                    i = i+1
+                    i += 1
                 # góra
                 if (w_wysokosci != PIERWSZY_WIERSZ_LUB_KOLUMNA and
                         tab[w_wysokosci-1][w_szerokosci].wartosc == BOMBA):
-                    i = i+1
+                    i += 1
                 # prawy dolny róg
                 if (w_wysokosci != wysokosc-1 and w_szerokosci != szerokosc-1 and
                         tab[w_wysokosci+1][w_szerokosci+1].wartosc == BOMBA):
-                    i = i+1
+                    i += 1
                 # lewy doly róg
                 if (w_wysokosci != wysokosc-1 and w_szerokosci != PIERWSZY_WIERSZ_LUB_KOLUMNA and
                         tab[w_wysokosci+1][w_szerokosci-1].wartosc == BOMBA):
-                    i = i+1
+                    i += 1
                 # prawy górny róg
                 if (w_wysokosci != PIERWSZY_WIERSZ_LUB_KOLUMNA and w_szerokosci != szerokosc-1 and
                         tab[w_wysokosci-1][w_szerokosci+1].wartosc == BOMBA):
-                    i = i+1
+                    i += 1
                 # lewy dolny róg
                 if (w_wysokosci != PIERWSZY_WIERSZ_LUB_KOLUMNA and
                         w_szerokosci != PIERWSZY_WIERSZ_LUB_KOLUMNA and
                         tab[w_wysokosci-1][w_szerokosci-1].wartosc == BOMBA):
-                    i = i+1
+                    i += 1
                 # ustawiamy taką wartość, jaką obliczyliśmy
                 tab[w_wysokosci][w_szerokosci].set_wartosc(i)
 
@@ -78,15 +78,5 @@ def faza_druga(window, bomby, dane, wspolrzedna_1, wspolrzedna_2):
     odslon = []  # tworzymy pustą tablice odsłonięć
     gra.odsloniecia(bomb, szerokosc, wysokosc, wspolrzedna_1, wspolrzedna_2, odslon)
 
-    for i in bomb:
-        for j in i:
-            print(j.wartosc, end=" ")
-        print()
-    print()
-
-    for i in bomb:
-        for j in i:
-            print(j.stan, end="")
-        print()
     # przechodzimy do gry właściwej
     gra.generuj_pola(window, bomb, szerokosc, wysokosc, bomby)

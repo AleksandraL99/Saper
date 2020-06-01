@@ -1,11 +1,11 @@
 import tkinter
 
 from funkcje import laduj_menu
-from funkcje import obrazy
+from funkcje import obrazy_i_stale
 
 def main():
     window = tkinter.Tk()
-    obrazy.Assets.load()
+    obrazy_i_stale.Assets.load()
     laduj_menu.laduj_menu(window)
 
     tkinter.mainloop()

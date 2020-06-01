@@ -1,4 +1,4 @@
-class Pole():
+class Pole:
 
     def __init__(self):
         self.stan = 0

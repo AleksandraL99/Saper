@@ -1,4 +1,4 @@
-class Dane():
+class Dane:
 
     def __init__(self):
         ustawienia_planszy = 10,10
