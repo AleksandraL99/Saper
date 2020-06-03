@@ -1,3 +1,4 @@
+"""Plik zawierający obrazy i stałe"""
 import tkinter
 
 

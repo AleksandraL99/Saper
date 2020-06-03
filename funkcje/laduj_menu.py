@@ -1,3 +1,4 @@
+"""Plik zawierający menu startowe"""
 import tkinter
 
 from funkcje import faza_pierwsza
@@ -11,6 +12,7 @@ WYSOKOŚĆ = 1
 
 
 def zmiana_pol_poziom(self, dane, bomby):
+    """Funkcja zamiany pól w poziomie"""
     # ustawiamy rozmiar planszy zgodnie z tym co zostało wybrane w menu
     spix, spiy = dane.get_ustawienia_planszy()  # spix to szerokosc
     spix = int(self.get())
@@ -19,6 +21,7 @@ def zmiana_pol_poziom(self, dane, bomby):
 
 
 def zmiana_pol_pion(self, dane, bomby):
+    """Funkcja zamiany pól w pionie"""
     spix, spiy = dane.get_ustawienia_planszy()
     spiy = int(self.get())
     bomby.config(from_=int(spix*spiy*0.2), to=int(spix*spiy*0.7))
@@ -26,6 +29,7 @@ def zmiana_pol_pion(self, dane, bomby):
 
 
 def laduj_menu(window):
+    """Funkcja tworząca okno menu"""
     dane = Dane.Dane()  # startowa szerokość planszy
     dane.set_ustawienia_planszy(10, 10)  # metoda z klasy Dane
 

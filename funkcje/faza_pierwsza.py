@@ -1,3 +1,4 @@
+"""Plik obejmujący budowanie okna gry i pierwszy strzał"""
 from functools import partial
 import tkinter
 
@@ -10,10 +11,12 @@ WYMIAR_RESET = 30
 
 # po pierwszym kliknięciu przejdź do fazy drugiej z tymi samymi parametrami
 def pierwszy_klik(window, bomby, dane, wspolrzedna_1, wspolrzedna_2):
+    """Funkcja kierująca po kliknięciu do kolejnej fazy"""
     faza_druga.faza_druga(window, bomby, dane, wspolrzedna_1, wspolrzedna_2)
 
 
 def faza_pierwsza(window, dane, bomby):
+    """Funkcja budująca okno gry, przygotowane na pierwszy strzał"""
     print(dane)
 
     szerokosc, wysokosc = dane  # szerokość i wysokość wczytywana z planszy

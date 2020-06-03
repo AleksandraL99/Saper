@@ -1,3 +1,4 @@
+"""Plik gry właściwej"""
 import tkinter
 from functools import partial
 
@@ -16,102 +17,110 @@ PUSTY = 0
 
 
 def zresetuj(window):
+    """Funkcja resetowania gry"""
     elementy = window.place_slaves()
     for element in elementy:
         element.destroy()
     laduj_menu.laduj_menu(window)
 
 
-# funkcja odsłaniajaca po kliknięciu
-def odsloniecia(tab, szerokosc, wysokosc, wsp_1, wsp_2, odslon):
+def odsloniecia(plansza, szerokosc, wysokosc, wsp_1, wsp_2, odslon):
+    """funkcja odsłaniajaca po kliknięciu"""
     # jeśli trafi się w pole z wartością 0 (pustą) i nieodsłoniętą, to idź rekurencyjnie
-    if tab[wsp_1][wsp_2].wartosc == PUSTY and tab[wsp_1][wsp_2].stan == NIEODSLONIETY:
-        tab[wsp_1][wsp_2].set_stan(1)  # ustaw stan na odsłonięcie
+    if plansza[wsp_1][wsp_2].wartosc == PUSTY and plansza[wsp_1][wsp_2].stan == NIEODSLONIETY:
+        plansza[wsp_1][wsp_2].set_stan(1)  # ustaw stan na odsłonięcie
         odslon.append((wsp_1, wsp_2))  # odsłoń
         if wsp_1 != 0:  # jeśli to nie jest element w zerowym wierszu
             # to idź rekurencyjnie do góry
-            odsloniecia(tab, szerokosc, wysokosc, wsp_1-1, wsp_2, odslon)
+            odsloniecia(plansza, szerokosc, wysokosc, wsp_1-1, wsp_2, odslon)
         if wsp_1 != wysokosc-1:  # jeśli to nie ostatni wiersz
             # to idź do dołu
-            odsloniecia(tab, szerokosc, wysokosc, wsp_1+1, wsp_2, odslon)
+            odsloniecia(plansza, szerokosc, wysokosc, wsp_1+1, wsp_2, odslon)
         if wsp_2 != 0:  # jeśli to nie zerowa kolumna
             # to idź w lewo
-            odsloniecia(tab, szerokosc, wysokosc, wsp_1, wsp_2-1, odslon)
+            odsloniecia(plansza, szerokosc, wysokosc, wsp_1, wsp_2-1, odslon)
         if wsp_2 != szerokosc-1:  # jeśli to nie ostatnia kolumna
             # to idź w prawo
-            odsloniecia(tab, szerokosc, wysokosc, wsp_1, wsp_2+1, odslon)
+            odsloniecia(plansza, szerokosc, wysokosc, wsp_1, wsp_2+1, odslon)
     else:  # jeśli trafimy na komórkę z wartością lub już odsłoniętą
-        tab[wsp_1][wsp_2].set_stan(ODSLONIETY)  # zmień stan na odsłonięty
+        plansza[wsp_1][wsp_2].set_stan(ODSLONIETY)  # zmień stan na odsłonięty
         odslon.append((wsp_1, wsp_2))  # odsłoń ją
         # lewy górny róg
-        if (wsp_1 != 0 and wsp_2 != szerokosc-1 and tab[wsp_1][wsp_2+1].wartosc == PUSTY and
-                tab[wsp_1-1][wsp_2].wartosc != PUSTY and tab[wsp_1][wsp_2+1].stan == ODSLONIETY):
-            tab[wsp_1-1][wsp_2].set_stan(1)  # ustaw stan 1
+        if (wsp_1 != 0 and wsp_2 != szerokosc-1 and
+                plansza[wsp_1][wsp_2+1].wartosc == PUSTY and
+                plansza[wsp_1-1][wsp_2].wartosc != PUSTY and
+                plansza[wsp_1][wsp_2+1].stan == ODSLONIETY):
+            plansza[wsp_1-1][wsp_2].set_stan(1)  # ustaw stan 1
             odslon.append((wsp_1-1, wsp_2))
         # prawy dolny róg
-        if (wsp_1 != wysokosc-1 and wsp_2 != 0 and tab[wsp_1][wsp_2-1].wartosc == PUSTY and
-                tab[wsp_1+1][wsp_2].wartosc != PUSTY and tab[wsp_1][wsp_2-1].stan == ODSLONIETY):
-            tab[wsp_1+1][wsp_2].set_stan(ODSLONIETY)
+        if (wsp_1 != wysokosc-1 and wsp_2 != 0 and
+                plansza[wsp_1][wsp_2-1].wartosc == PUSTY and
+                plansza[wsp_1+1][wsp_2].wartosc != PUSTY and
+                plansza[wsp_1][wsp_2-1].stan == ODSLONIETY):
+            plansza[wsp_1+1][wsp_2].set_stan(ODSLONIETY)
             odslon.append((wsp_1+1, wsp_2))
         # lewy dolny róg
         if (wsp_1 != wysokosc-1 and wsp_2 != szerokosc-1 and
-                tab[wsp_1][wsp_2+1].wartosc == PUSTY and
-                tab[wsp_1+1][wsp_2].wartosc != PUSTY and tab[wsp_1][wsp_2+1].stan == ODSLONIETY):
-            tab[wsp_1+1][wsp_2].set_stan(ODSLONIETY)
+                plansza[wsp_1][wsp_2+1].wartosc == PUSTY and
+                plansza[wsp_1+1][wsp_2].wartosc != PUSTY and
+                plansza[wsp_1][wsp_2+1].stan == ODSLONIETY):
+            plansza[wsp_1+1][wsp_2].set_stan(ODSLONIETY)
             odslon.append((wsp_1+1, wsp_2))
         # prawy górny róg
-        if (wsp_1 != 0 and wsp_2 != 0 and tab[wsp_1][wsp_2-1].wartosc == PUSTY and
-                tab[wsp_1-1][wsp_2].wartosc != PUSTY and tab[wsp_1][wsp_2-1].stan == ODSLONIETY):
-            tab[wsp_1-1][wsp_2].set_stan(ODSLONIETY)
+        if (wsp_1 != 0 and wsp_2 != 0 and plansza[wsp_1][wsp_2-1].wartosc == PUSTY and
+                plansza[wsp_1-1][wsp_2].wartosc != PUSTY and
+                plansza[wsp_1][wsp_2-1].stan == ODSLONIETY):
+            plansza[wsp_1-1][wsp_2].set_stan(ODSLONIETY)
             odslon.append((wsp_1-1, wsp_2))
 
 
-# obsługa kliknięcia lewego
-def lewe_klikniecie(window, tab, szerokosc, wysokosc, wsp_1, wsp_2, btTablica, self):
-    if tab[wsp_1][wsp_2].stan == NIEODSLONIETY:  # jeśli nieodkryty
-        if tab[wsp_1][wsp_2].wartosc == 9:
+def lewe_klikniecie(window, plansza, szerokosc, wysokosc, wsp_1, wsp_2, btTablica, self):
+    """Funkcja obsługi kliknięcia lewego"""
+    if plansza[wsp_1][wsp_2].stan == NIEODSLONIETY:  # jeśli nieodkryty
+        if plansza[wsp_1][wsp_2].wartosc == 9:
             faza_trzecia.faza_trzecia(window, szerokosc, wysokosc, 0)
             print("end")
             return
         odslon = []
-        odsloniecia(tab, szerokosc, wysokosc, wsp_1, wsp_2, odslon)
+        odsloniecia(plansza, szerokosc, wysokosc, wsp_1, wsp_2, odslon)
         for i, j in odslon:
-            liczba, kolor = kololowanko(tab[i][j].wartosc)
+            liczba, kolor = kololowanko(plansza[i][j].wartosc)
             lb = tkinter.Label(btTablica[i][j].master, bg=obrazy_i_stale.SZARY_CIEMNY,
                                text="  {}  ".format(liczba),
                                font=("Calibri", 10), fg='{}'.format(kolor))
             lb.place(x=j*26, y=i*26)
             btTablica[i][j].destroy()
-        warunki_zakonczenia(window, szerokosc, wysokosc, tab)
+        warunki_zakonczenia(window, szerokosc, wysokosc, plansza)
     else:
         print("Tu jest flaga/znak zapytania, nie da się strzelić")
 
 
-# obsługa prawego kliknięcia
 def prawe_klikniecie(window, szerokosc, wysokosc,
-                     tab, wsp_1, wsp_2, przycisk, wyswietl, bomby, self):
+                     plansza, wsp_1, wsp_2, przycisk, wyswietl, bomby, self):
+    """Funkcja obsługi prawego kliknięcia"""
     # w tej części możemy użyć flagi i pytajnika
 
-    if tab[wsp_1][wsp_2].stan == NIEODSLONIETY:  # jeśli jeszcze nie był klikany
-        tab[wsp_1][wsp_2].set_stan(STAN_FLAGI)  # ustaw stan 2, odpowiedzialny za flagę)
+    if plansza[wsp_1][wsp_2].stan == NIEODSLONIETY:  # jeśli jeszcze nie był klikany
+        plansza[wsp_1][wsp_2].set_stan(STAN_FLAGI)  # ustaw stan 2, odpowiedzialny za flagę)
         logo = obrazy_i_stale.Assets.FLAGA_OBRAZ.subsample(2, 2)
         przycisk.config(image=logo)  # stwórz przycisk z obrazkiem plagi
         przycisk.image = logo
         bomby.set_bomby(bomby.get_bomby()-1)
-    elif tab[wsp_1][wsp_2].stan == STAN_FLAGI:  # jeśli stanem było 2 (flaga)
-        tab[wsp_1][wsp_2].set_stan(STAN_PYTAJNIKA)  # ustaw stan 3, czyli pytajnik
+    elif plansza[wsp_1][wsp_2].stan == STAN_FLAGI:  # jeśli stanem było 2 (flaga)
+        plansza[wsp_1][wsp_2].set_stan(STAN_PYTAJNIKA)  # ustaw stan 3, czyli pytajnik
         logo = obrazy_i_stale.Assets.PYTAJNIK_OBRAZ.subsample(2, 2)
         przycisk.config(image=logo)  # stwórz przycisk z pytajnikiem
         przycisk.image = logo
         bomby.set_bomby(bomby.get_bomby()+1)
-    elif tab[wsp_1][wsp_2].stan == STAN_PYTAJNIKA:  # jeśli stanem było 3 (pytajnik)
-        tab[wsp_1][wsp_2].set_stan(NIEODSLONIETY)  # wróć do stanu 0
+    elif plansza[wsp_1][wsp_2].stan == STAN_PYTAJNIKA:  # jeśli stanem było 3 (pytajnik)
+        plansza[wsp_1][wsp_2].set_stan(NIEODSLONIETY)  # wróć do stanu 0
         przycisk.config(image="")  # przycisk bez obrazka
-    warunki_zakonczenia(window, szerokosc, wysokosc, tab)
+    warunki_zakonczenia(window, szerokosc, wysokosc, plansza)
     wyswietl['text'] = "Pozostałe bomby do oznaczenia: {}".format(bomby.get_bomby())
 
 
-def warunki_zakonczenia(window, szerokosc, wysokosc, tab):
+def warunki_zakonczenia(window, szerokosc, wysokosc, plansza):
+    """Funkcja sprawdzająca warunki zakończenia"""
     ilosc_bomb = 0
     oznaczone_bomby = 0
     oznaczone = 0
@@ -120,16 +129,16 @@ def warunki_zakonczenia(window, szerokosc, wysokosc, tab):
     for i in range(wysokosc):
         for j in range(szerokosc):
             # przeliczamy ilość bomb, można przekazać w parametrze
-            if tab[i][j].wartosc == BOMBA:
+            if plansza[i][j].wartosc == BOMBA:
                 ilosc_bomb += 1
             # liczymy ile jest oznaczonych flagą
-            if tab[i][j].stan == STAN_FLAGI:
+            if plansza[i][j].stan == STAN_FLAGI:
                 oznaczone += 1
             # porównujemy ilość oznaczonych
-            if tab[i][j].wartosc == BOMBA and tab[i][j].stan == STAN_FLAGI:
+            if plansza[i][j].wartosc == BOMBA and plansza[i][j].stan == STAN_FLAGI:
                 oznaczone_bomby += 1
             # liczymy ile odsłoniętych
-            if tab[i][j].stan == ODSLONIETY:
+            if plansza[i][j].stan == ODSLONIETY:
                 odsloniete += 1
     # jeśli warunki spełnione to przejdź do okna zamknięcia
     if ilosc_bomb == oznaczone_bomby == oznaczone or odsloniete+ilosc_bomb == wszystkie:
@@ -137,6 +146,7 @@ def warunki_zakonczenia(window, szerokosc, wysokosc, tab):
 
 
 def kololowanko(wartosc):
+    """Funkcja nadająca kolor i wartość odsłanianym polom"""
     KOLORY = ["blue", "green", "red", "navy", "#8B0000", "#FFFF00", "#DC143C", "black"]
     liczba = "  "
     kolor = obrazy_i_stale.SZARY_JASNY
@@ -146,7 +156,8 @@ def kololowanko(wartosc):
         return "  ", obrazy_i_stale.SZARY_JASNY
 
 
-def generuj_pola(window, tab, szerokosc, wysokosc, bomby):  # generowanie planszy
+def generuj_pola(window, plansza, szerokosc, wysokosc, bomby):  # generowanie planszy
+    """Funkcja genrująca planszę"""
     elementy = window.place_slaves()
     for l in elementy:
         l.destroy()
@@ -183,19 +194,21 @@ def generuj_pola(window, tab, szerokosc, wysokosc, bomby):  # generowanie plansz
     for i in range(wysokosc):
         temp = []
         for j in range(szerokosc):
-            if tab[i][j].stan == ODSLONIETY:  # jeśli jest stan równy 1 ustawiony, to wyświetlaj liczby
-                liczba, kolor = kololowanko(tab[i][j].wartosc)
-                przycisk = tkinter.Label(board, bg=obrazy_i_stale.SZARY_CIEMNY, text="  {}  ".format(liczba),
+            # jeśli jest stan równy 1 ustawiony, to wyświetlaj liczby
+            if plansza[i][j].stan == ODSLONIETY:
+                liczba, kolor = kololowanko(plansza[i][j].wartosc)
+                przycisk = tkinter.Label(board, bg=obrazy_i_stale.SZARY_CIEMNY,
+                                         text="  {}  ".format(liczba),
                                          font=("Calibri", 10), fg='{}'.format(kolor))
             else:
                 # tworzymy pusty przycisk
                 przycisk = tkinter.Button(board, bg=obrazy_i_stale.SZARY_JASNY, text="     ")
                 # obsługa lewego kliknięcia
-                przycisk.bind("<Button-1>", partial(lewe_klikniecie, window, tab,
+                przycisk.bind("<Button-1>", partial(lewe_klikniecie, window, plansza,
                                                     szerokosc, wysokosc, i, j, btTablica))
                 # obsługa prawego kliknięcia
                 przycisk.bind("<Button-3>", partial(prawe_klikniecie, window, szerokosc, wysokosc,
-                                                    tab, i, j, przycisk, wyswietl, liczba_bomb))
+                                                    plansza, i, j, przycisk, wyswietl, liczba_bomb))
 
             przycisk.place(x=j*WYMIAR_OKIENKA, y=i*WYMIAR_OKIENKA)
             temp.append(przycisk)

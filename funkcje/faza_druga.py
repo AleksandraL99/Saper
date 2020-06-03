@@ -1,3 +1,4 @@
+"""Plik w którym dzieje się część gry po pierwszym strzale, ale przed grą właściwą"""
 import random
 
 from klasy import Pole
@@ -10,70 +11,48 @@ PIERWSZY_WIERSZ_LUB_KOLUMNA = 0
 # funkcja losująca bomby, przyjmuje takie argumenty jak
 # ilość bomb, szerokość i wysokość planszy oraz współrzędne pierwszego strzału
 def losowanie_bomb(bomby, szerokosc, wysokosc, wspolrzedna_1, wspolrzedna_2):
+    """Funkcja, w której losują się miejca bomb"""
     # ustalenie numeru pola w które strzelił gracz
     strzelone = wspolrzedna_1*szerokosc+wspolrzedna_2
     pola = list(range(0, strzelone))+list(range(strzelone+1, szerokosc*wysokosc))
     bomb = random.sample(pola, bomby)  # losowanie bomb wśród pozostałych pól
 
-    tab = [[Pole.Pole() for col in range(szerokosc)] for row in range(wysokosc)]
+    plansza = [[Pole.Pole() for col in range(szerokosc)] for row in range(wysokosc)]
     for i in bomb:  # przełożenie z numeru pól nas tablice dwuwymiarową
         wsp_1 = i // szerokosc
         wsp_2 = i % szerokosc
         # ustawienie wartości 9 w miejscach pól z bombami
-        tab[wsp_1][wsp_2].set_wartosc(BOMBA)
-    return tab  # zwraca tablicę z oznaczonymi polami bomb
+        plansza[wsp_1][wsp_2].set_wartosc(BOMBA)
+    return plansza  # zwraca tablicę z oznaczonymi polami bomb
 
 
 # funkcja przeliczająca numery pojawiające się w danym polu
-def przelicz(tab, szerokosc, wysokosc):
-    for w_wysokosci in range(wysokosc):
-        for w_szerokosci in range(szerokosc):
-            i = 0  # licznik do liczenia bomb w sąsiedztwie
-            # nie przelicza jeśli już ma wartość bomby
-            if tab[w_wysokosci][w_szerokosci].wartosc == BOMBA:
-                pass
-            else:
-                # na prawo
-                if (w_szerokosci != szerokosc-1 and
-                        tab[w_wysokosci][w_szerokosci+1].wartosc == BOMBA):
-                    i += 1
-                # na lewo
-                if (w_szerokosci != PIERWSZY_WIERSZ_LUB_KOLUMNA and
-                        tab[w_wysokosci][w_szerokosci-1].wartosc == BOMBA):
-                    i += 1
-                # dół
-                if (w_wysokosci != wysokosc-1 and
-                        tab[w_wysokosci+1][w_szerokosci].wartosc == BOMBA):
-                    i += 1
-                # góra
-                if (w_wysokosci != PIERWSZY_WIERSZ_LUB_KOLUMNA and
-                        tab[w_wysokosci-1][w_szerokosci].wartosc == BOMBA):
-                    i += 1
-                # prawy dolny róg
-                if (w_wysokosci != wysokosc-1 and w_szerokosci != szerokosc-1 and
-                        tab[w_wysokosci+1][w_szerokosci+1].wartosc == BOMBA):
-                    i += 1
-                # lewy doly róg
-                if (w_wysokosci != wysokosc-1 and w_szerokosci != PIERWSZY_WIERSZ_LUB_KOLUMNA and
-                        tab[w_wysokosci+1][w_szerokosci-1].wartosc == BOMBA):
-                    i += 1
-                # prawy górny róg
-                if (w_wysokosci != PIERWSZY_WIERSZ_LUB_KOLUMNA and w_szerokosci != szerokosc-1 and
-                        tab[w_wysokosci-1][w_szerokosci+1].wartosc == BOMBA):
-                    i += 1
-                # lewy dolny róg
-                if (w_wysokosci != PIERWSZY_WIERSZ_LUB_KOLUMNA and
-                        w_szerokosci != PIERWSZY_WIERSZ_LUB_KOLUMNA and
-                        tab[w_wysokosci-1][w_szerokosci-1].wartosc == BOMBA):
-                    i += 1
-                # ustawiamy taką wartość, jaką obliczyliśmy
-                tab[w_wysokosci][w_szerokosci].set_wartosc(i)
+def przelicz(plansza):
+    """Funkcja przeliczająca wartości pojawiające się na polach"""
+    for i, wiersz in enumerate(plansza):
+        for j, pole in enumerate(wiersz):
+            n_bomb = 0
+            if pole.wartosc == BOMBA:
+                continue
+            for di in (-1, 0, +1):
+                for dj in (-1, 0, +1):
+                    if di == dj == 0:
+                        continue
+                    if not 0 <= i + di < len(plansza):
+                        continue
+                    if not 0 <= j + dj < len(wiersz):
+                        continue
+                    if plansza[i+di][j+dj].wartosc == BOMBA:
+                        n_bomb += 1
+            pole.set_wartosc(n_bomb)
 
 
 def faza_druga(window, bomby, dane, wspolrzedna_1, wspolrzedna_2):
+    """Faza obejmująca wykananie losowania bomba, przeliczenia pól i wygenerowania planszy"""
     szerokosc, wysokosc = dane
     bomb = losowanie_bomb(bomby, szerokosc, wysokosc, wspolrzedna_1, wspolrzedna_2)
-    przelicz(bomb, szerokosc, wysokosc)  # nadanie wartości w tablicy
+
+    przelicz(bomb)  # nadanie wartości w tablicy
 
     odslon = []  # tworzymy pustą tablice odsłonięć
     gra.odsloniecia(bomb, szerokosc, wysokosc, wspolrzedna_1, wspolrzedna_2, odslon)

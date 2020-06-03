@@ -1,3 +1,4 @@
+"""Plik zawierający planszę po przegranej lub wygranej"""
 from functools import partial
 import tkinter
 
@@ -9,6 +10,7 @@ ROZMIAR_TEKSTU = 25
 
 
 def reset(window):
+    """Funkcja resetująca okno gry"""
     elementy = window.place_slaves()
     for l in elementy:
         l.destroy()
@@ -16,7 +18,7 @@ def reset(window):
 
 
 def faza_trzecia(window, szerokosc, wysokosc, status):
-
+    """Funkcja budująca końcowe okno gry"""
     szerokosc_okna = WYMIAR_OKIENKA*szerokosc - 4
     wysokosc_okna = WYMIAR_OKIENKA*wysokosc + 50
     # tworzymy okno z startowym menu

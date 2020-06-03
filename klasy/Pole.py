@@ -1,4 +1,5 @@
 class Pole:
+    """Klasa zawierająca wartości i stany pól"""
 
     def __init__(self):
         self.stan = 0

@@ -1,7 +1,8 @@
 class Dane:
+    """Klasa zawierajace dane o planszy"""
 
     def __init__(self):
-        ustawienia_planszy = 10,10
+        ustawienia_planszy = 10, 10
 
     def set_ustawienia_planszy(self, x, y):
         self.__spix = x
