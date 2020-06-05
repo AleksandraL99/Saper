@@ -1,3 +1,4 @@
+"""Testy modułu Pole"""
 from unittest import TestCase
 
 from klasy.Pole import Pole

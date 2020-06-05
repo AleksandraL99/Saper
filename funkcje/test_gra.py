@@ -1,3 +1,4 @@
+"""Test funkcji kololowanko z modułu gra"""
 from unittest import TestCase
 
 from funkcje.gra import kololowanko
@@ -9,4 +10,3 @@ class Test(TestCase):
 
     def test_kololowanko(self):
         self.assertEqual(kololowanko(self.wartosc), ("3", "red"))
-
