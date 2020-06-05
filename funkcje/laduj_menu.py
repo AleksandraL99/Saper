@@ -2,7 +2,7 @@
 import tkinter
 
 from funkcje import faza_pierwsza
-from funkcje import obrazy_i_stale
+from pozostale import obrazy_i_stale
 from klasy import Dane
 
 OD = 10

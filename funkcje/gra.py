@@ -4,7 +4,7 @@ from functools import partial
 
 from funkcje import faza_trzecia
 from funkcje import laduj_menu
-from funkcje import obrazy_i_stale
+from pozostale import obrazy_i_stale
 from klasy import Dane
 
 ODSLONIETY = 1
@@ -78,7 +78,7 @@ def lewe_klikniecie(window, plansza, szerokosc, wysokosc, wsp_1, wsp_2, btTablic
     """Funkcja obsługi kliknięcia lewego"""
     if plansza[wsp_1][wsp_2].stan == NIEODSLONIETY:  # jeśli nieodkryty
         if plansza[wsp_1][wsp_2].wartosc == 9:
-            faza_trzecia.faza_trzecia(window, szerokosc, wysokosc, 0)
+            faza_trzecia.faza_trzecia(window, szerokosc, wysokosc, False)
             print("end")
             return
         odslon = []
@@ -142,7 +142,7 @@ def warunki_zakonczenia(window, szerokosc, wysokosc, plansza):
                 odsloniete += 1
     # jeśli warunki spełnione to przejdź do okna zamknięcia
     if ilosc_bomb == oznaczone_bomby == oznaczone or odsloniete+ilosc_bomb == wszystkie:
-        faza_trzecia.faza_trzecia(window, szerokosc, wysokosc, 1)
+        faza_trzecia.faza_trzecia(window, szerokosc, wysokosc, True)
 
 
 def kololowanko(wartosc):
@@ -159,8 +159,8 @@ def kololowanko(wartosc):
 def generuj_pola(window, plansza, szerokosc, wysokosc, bomby):  # generowanie planszy
     """Funkcja genrująca planszę"""
     elementy = window.place_slaves()
-    for l in elementy:
-        l.destroy()
+    for element in elementy:
+        element.destroy()
 
     # ustalamy szerokość i wysokość każdego pola jako 26 pixeli
     szerokosc_okna = WYMIAR_OKIENKA*szerokosc - 4

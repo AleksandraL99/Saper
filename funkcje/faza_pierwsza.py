@@ -3,7 +3,7 @@ from functools import partial
 import tkinter
 
 from funkcje import faza_druga
-from funkcje import obrazy_i_stale
+from pozostale import obrazy_i_stale
 
 WYMIAR_OKIENKA = 26
 WYMIAR_RESET = 30
