@@ -1,4 +1,4 @@
-"""Test funkcji kololowanko z modułu gra"""
+"""Test funkcji z modułu gra"""
 from unittest import TestCase
 
 from funkcje.faza_druga import przelicz
@@ -28,9 +28,9 @@ class Test(TestCase):
 
         przelicz(tablica)
 
-        odsloniecia(tablica, 3, 3, 0,0,[])
+        odsloniecia(tablica, 3, 3, 0, 0, [])
 
-        tablica_porownawcza = [[1,1,0],[1,1,0],[0,0,0]]
+        tablica_porownawcza = [[1, 1, 0], [1, 1, 0], [0, 0, 0]]
 
         tablica_wypisz = []
         for i, stan in enumerate(tablica):
@@ -39,7 +39,6 @@ class Test(TestCase):
                 tablica_wypisz[i].append(j.stan)
 
         self.assertEqual(tablica_wypisz, tablica_porownawcza)
-
 
     def test_przelicz(self):
         tablica = []
@@ -56,7 +55,7 @@ class Test(TestCase):
 
         przelicz(tablica)
 
-        tablica_porownawcza = [[0,1,9],[1,2,2],[1,9,1]]
+        tablica_porownawcza = [[0, 1, 9], [1, 2, 2], [1, 9, 1]]
 
         tablica_wypisz = []
         for i, wartosc in enumerate(tablica):
