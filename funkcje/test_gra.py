@@ -28,9 +28,8 @@ class Test(TestCase):
 
         przelicz(tablica)
 
-        odsloniecia(tablica, 3, 3, 0, 0, [])
-
-        tablica_porownawcza = [[1, 1, 0], [1, 1, 0], [0, 0, 0]]
+        odsloniecia(tablica, 3, 3, 0, 0, [])  # Przypadek odsłaniania po trafieniu w zero
+        tablica_porownawcza_1 = [[1, 1, 0], [1, 1, 0], [0, 0, 0]]
 
         tablica_wypisz = []
         for i, stan in enumerate(tablica):
@@ -38,7 +37,18 @@ class Test(TestCase):
             for j in stan:
                 tablica_wypisz[i].append(j.stan)
 
-        self.assertEqual(tablica_wypisz, tablica_porownawcza)
+        self.assertEqual(tablica_wypisz, tablica_porownawcza_1)
+
+        odsloniecia(tablica, 3, 3, 2, 2, [])  # Przypadek odsłaniania po trafieniu w liczbę
+        tablica_porownawcza_2 = [[1, 1, 0], [1, 1, 0], [0, 0, 1]]
+
+        tablica_wypisz = []
+        for i, stan in enumerate(tablica):
+            tablica_wypisz.append([])
+            for j in stan:
+                tablica_wypisz[i].append(j.stan)
+
+        self.assertEqual(tablica_wypisz, tablica_porownawcza_2)
 
     def test_przelicz(self):
         tablica = []
