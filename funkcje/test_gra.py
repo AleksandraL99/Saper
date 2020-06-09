@@ -1,12 +1,12 @@
 """Test funkcji z modułu gra"""
-from unittest import TestCase
+import unittest
 
 from funkcje.faza_druga import przelicz
 from funkcje.gra import kololowanko, odsloniecia
 from klasy.Pole import Pole
 
 
-class Test(TestCase):
+class Test(unittest.TestCase):
     def setUp(self):
         self.wartosc = 3
 
@@ -74,3 +74,7 @@ class Test(TestCase):
                 tablica_wypisz[i].append(j.wartosc)
 
         self.assertEqual(tablica_wypisz, tablica_porownawcza)
+
+
+if __name__ == '__main__':
+    unittest.main()
